@@ -10,6 +10,8 @@ import LogIn from './pages/LogIn'
 import MainPage from './pages/MainPage';
 import SearchRegister from './pages/SearchRegister';
 import RegisterPage from './pages/RegisterPage';
+import MedicalRecords from './pages/MedicalRecords';
+import NewMedicalRecord from './pages/NewMedicalRecord';
 
 import { TicketContext } from "./context/ticketContext"
 
@@ -35,6 +37,8 @@ function App() {
           <Route path="/main-page" element={<MainPage/>} />
           <Route path="/search-register" element={<SearchRegister/>} />
           <Route path="/register" element={<RegisterPage/>} />
+          <Route path="/medical-records" element={<MedicalRecords/>} />
+          <Route path="/new-medical-record" element={<NewMedicalRecord/>} />
         </Routes>
       </BrowserRouter>
     </>

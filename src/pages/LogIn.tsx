@@ -15,6 +15,9 @@ export default function LogIn(){
             // const response = await axios.post("http://localhost:5000/sign-in", {username,password});
             // setUser(response.data.username);
             // setDepartment(response.data.department);
+            // - secretaria -> /main-page
+            // - enfermagem -> /medical-records
+            // - medicina -> 
             navigator("/main-page");
           } catch (error){
             console.log(error);

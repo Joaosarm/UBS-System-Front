@@ -22,6 +22,10 @@ export default function InitialPage(){
         navigator("/log-in");
     }
     
+    function goBack(){
+        navigator("/main-page");
+    }
+    
     function register(){
         //TO DO: FINALIZAR REGISTRO - POST
     }
@@ -40,7 +44,8 @@ export default function InitialPage(){
                 <div>Telefone: <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="" /></div>
                 <div>E-mail: <Input type="string" size={300} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="" /></div>
             </Infos>
-            <button onClick={register}>Cadastrar</button>
+            <button onClick={register}>Finalizar Cadastro</button>
+            <button onClick={goBack}>Voltar</button>
             
         </Container>
     )
@@ -54,6 +59,12 @@ const Container= styled.div`
 
     display:flex;
     flex-direction: column;
+
+    button{
+        background-color: #0D4B9C;
+        color: #FFFFFF;
+        margin: 15px;
+    }
 `
 
 const Header = styled.header`
@@ -72,6 +83,7 @@ const Header = styled.header`
     button{
         background-color: transparent;
         color: #FFFFFF;
+        margin: 0;
     }
 ` 
 

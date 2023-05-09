@@ -22,6 +22,10 @@ export default function InitialPage(){
     function newRegister(){
         navigator("/register");
     }
+
+    function goBack(){
+        navigator("/main-page");
+    }
     
     function SearchCPF(){
         //TO DO: PROCURAR CADATRO DE CPF - GET
@@ -41,6 +45,8 @@ export default function InitialPage(){
                 registered?registered.map(r => r):
                 <div><p>Nenhum Paciente encontrado</p> <u onClick={newRegister}>Realizar Cadastro</u></div>
             }</FoundRegisters>
+
+            <button onClick={goBack}>Voltar</button>
             
         </Container>
     )
@@ -56,6 +62,8 @@ const Container= styled.div`
     flex-direction: column;
     button{
         margin: 10px;
+        background-color: #0D4B9C;
+        color: #FFFFFF;
     }
 
 `
@@ -108,7 +116,7 @@ const FoundRegisters= styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 100px;
+    margin: 100px 0 20px 0;
 
     p{
         padding:0;
