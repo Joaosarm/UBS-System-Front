@@ -9,14 +9,27 @@ export default function InitialPage(){
     function navigate(){
         navigator("/service-type");
     }
+    
+    function logIn(){
+        navigator("/log-in");
+    }
 
     return(
-        <>
+        <Container>
             {/* BOTÃO INICIAL PARA COMEÇAR O ATENDIMENTO */}
+            <button className="log-in" onClick={logIn}>Log In</button>
             <Button onClick={navigate}>INICIAR ATENDIMENTO</Button>
-        </>
+        </Container>
     )
 }
+
+const Container = styled.div`
+    .log-in{
+        position: absolute;
+        top: 5px;
+        right: 5px;
+    }
+`
 
 const Button = styled.button`
     background-color: #D6860E;

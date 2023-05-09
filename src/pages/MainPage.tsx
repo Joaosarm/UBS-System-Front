@@ -1,18 +1,25 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { TicketContext } from "../context/ticketContext";
+import { useContext } from "react";
 
 
 // TELA DO USUÁRIO
 export default function InitialPage(){
     const navigator = useNavigate();
+    const {preferentialTicket, regularTicket} = useContext(TicketContext);
 
     //TO DO: CARREGAR SENHAS CADASTRADAS
-    //
-    //
-    //
+
+
+    console.log(preferentialTicket);
 
     function logOut(){
         navigator("/log-in");
+    }
+
+    function register(ticket: string){
+        navigator(`/search-register/?ticket=${ticket}`);
     }
 
     return(
@@ -21,10 +28,20 @@ export default function InitialPage(){
             {/* BOTÃO INICIAL PARA COMEÇAR O ATENDIMENTO */}
 
             <h4>Preferencial:</h4>
-            <Box color = {"#1877F2"}></Box>
+            <Box color = {"#1877F2"}>
+                <div>
+                    {preferentialTicket.length>0?preferentialTicket.map(ticket => <p onClick={() =>register(ticket.toString())}>{ticket}</p>):
+                    <p>Nenhuma senha a espera</p>}
+                </div>
+            </Box>
             
             <h4>Regular:</h4>
-            <Box color = {"#D6860E"}></Box>
+            <Box color = {"#D6860E"}>
+                <div>
+                    {regularTicket.length>0?regularTicket.map(ticket => <p onClick={() =>register(ticket.toString())}>{ticket}</p>):
+                    <p>Nenhuma senha a espera</p>}
+                </div>
+            </Box>
         </Container>
     )
 }
@@ -66,4 +83,17 @@ const Box = styled.div`
     width: 60vw;
     height: 25vh;
     border-radius: 10px;
+    overflow: scroll;
+
+    p{
+        margin: 0px;
+    }
+    div{
+        margin: 20px;
+        height: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
 `

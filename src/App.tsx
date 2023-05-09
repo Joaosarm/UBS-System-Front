@@ -17,30 +17,28 @@ import { TicketContext } from "./context/ticketContext"
 
 function App() {
   const [ticket, setTicket] = useState<number>(0);
-  
+  const [preferentialTicket, setPreferentialTicket] = useState<number[]>([]);
+  const [regularTicket, setRegularTicket] = useState<number[]>([]);
+
 
   return (
     <>
-      <TicketContext.Provider value = {{ticket, setTicket}}>
+      <TicketContext.Provider value={{ ticket, setTicket, preferentialTicket, setPreferentialTicket, regularTicket, setRegularTicket }}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<InitialPage/>} />
-            <Route path="/service-type" element={<ServiceType/>} />
-            <Route path="/ticket" element={<TicketNumber/>} />
+            <Route path="/" element={<InitialPage />} />
+            <Route path="/service-type" element={<ServiceType />} />
+            <Route path="/ticket" element={<TicketNumber />} />
+
+            <Route path="/log-in" element={<LogIn />} />
+            <Route path="/main-page" element={<MainPage />} />
+            <Route path="/search-register" element={<SearchRegister />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/medical-records" element={<MedicalRecords />} />
+            <Route path="/new-medical-record" element={<NewMedicalRecord />} />
           </Routes>
         </BrowserRouter>
       </TicketContext.Provider>
-
-      <BrowserRouter>
-        <Routes>
-          <Route path="/log-in" element={<LogIn/>} />
-          <Route path="/main-page" element={<MainPage/>} />
-          <Route path="/search-register" element={<SearchRegister/>} />
-          <Route path="/register" element={<RegisterPage/>} />
-          <Route path="/medical-records" element={<MedicalRecords/>} />
-          <Route path="/new-medical-record" element={<NewMedicalRecord/>} />
-        </Routes>
-      </BrowserRouter>
     </>
   )
 }

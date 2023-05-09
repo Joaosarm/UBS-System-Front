@@ -21,10 +21,9 @@ export default function MedicalRecords(){
     return(
         <Container>
             <Header><p>Bem-Vindo, Usuário</p> <button onClick={logOut}>Sair</button></Header>
-            {/* BOTÃO INICIAL PARA COMEÇAR O ATENDIMENTO */}
 
             <Pacients>{
-                inAttendance.length>0?inAttendance.map(r => r):
+                inAttendance.length>0?inAttendance.map(p => p):
                 <p>Nenhum Paciente encontrado</p>
             }</Pacients>
 

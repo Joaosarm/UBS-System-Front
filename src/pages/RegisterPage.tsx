@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { TicketContext } from "../context/ticketContext";
+import { useState } from "react";
 
 
 // TELA DE REGISTO DE USUÁRIO
 export default function InitialPage(){
     const navigator = useNavigate();
-    const {ticket} = useContext(TicketContext);
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const ticket = urlParams.get('ticket');
 
     //TO DO: PEGAR INFORMAÇÕES DO REGISTRO
     const [name, setName] = useState<string>("");

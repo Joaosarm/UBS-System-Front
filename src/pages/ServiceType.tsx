@@ -2,17 +2,15 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { TicketContext } from "../context/ticketContext";
-// import axios from "axios";
 
 export default function ServiceType(){
-    const {setTicket} = useContext(TicketContext);
+    const {ticket, setTicket, preferentialTicket, setPreferentialTicket, regularTicket, setRegularTicket} = useContext(TicketContext);
     const navigator = useNavigate();
 
-    async function preferentialTicket(){
-        // ENVIAR PARA DB - TICKETS PREFERENCIAIS - UMA NOVA REQUISIÇÃO E RETORNAR O ID
+    async function addPreferentialTickets(){
         try{
-            // const response = await axios.post("http://localhost:5000/preferential-ticket"); 
-            setTicket(300);
+            setTicket(ticket+1);
+            setPreferentialTicket([...preferentialTicket, ticket+1]);
             navigator("/ticket");
         } catch (error){
             console.log(error);
@@ -20,11 +18,10 @@ export default function ServiceType(){
         }
     }
     
-    async function regularTicket(){
-        // ENVIAR PARA DB - TICKETS REGULARES - UMA NOVA REQUISIÇÃO E RETORNAR O ID
+    async function addRegularTicket(){
         try{
-            // const response = await axios.post("http://localhost:5000/regular-ticket"); 
-            setTicket(200);
+            setTicket(ticket+1);
+            setRegularTicket([...regularTicket, ticket+1]);
             navigator("/ticket");
         } catch (error){
             console.log(error);
@@ -36,8 +33,8 @@ export default function ServiceType(){
     return(
         <Container>
             <Title>Tipo de Atendimento:</Title>
-            <Button color = {"#1877F2"} onClick={preferentialTicket}>Preferencial</Button>
-            <Button color = {"#D6860E"} onClick={regularTicket}>Regular</Button>
+            <Button color = {"#1877F2"} onClick={addPreferentialTickets}>Preferencial</Button>
+            <Button color = {"#D6860E"} onClick={addRegularTicket}>Regular</Button>
         </Container>
     )
 }

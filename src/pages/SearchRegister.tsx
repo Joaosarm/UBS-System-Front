@@ -1,26 +1,27 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
-import { TicketContext } from "../context/ticketContext";
+import { useState } from "react";
 
 
 // TELA DE BUSCA DE CPF EM USUÁRIOS CADASTRADOS
 export default function InitialPage(){
     const navigator = useNavigate();
-    const {ticket} = useContext(TicketContext);
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const ticket = urlParams.get('ticket');
 
     const [cpf, setCpf] = useState<string>("");
     
     
-    const [registered, setRegistered] = useState<string[]>();
+    const [registered, setRegistered] = useState<string[]>([]);
     
 
     function logOut(){
         navigator("/log-in");
     }
     
-    function newRegister(){
-        navigator("/register");
+    function newRegister(ticket: string){
+        navigator(`/register/?ticket=${ticket}`);
     }
 
     function goBack(){
@@ -42,8 +43,8 @@ export default function InitialPage(){
             <button onClick={SearchCPF}>Realizar Busca</button>
 
             <FoundRegisters>{
-                registered?registered.map(r => r):
-                <div><p>Nenhum Paciente encontrado</p> <u onClick={newRegister}>Realizar Cadastro</u></div>
+                registered.length>0?registered.map(r => r):
+                <div><p>Nenhum Paciente encontrado</p> <u onClick={() => newRegister(ticket?ticket.toString():"Erro")}>Realizar Cadastro</u></div>
             }</FoundRegisters>
 
             <button onClick={goBack}>Voltar</button>
