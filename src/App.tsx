@@ -17,13 +17,11 @@ import { TicketContext } from "./context/ticketContext"
 
 function App() {
   const [ticket, setTicket] = useState<number>(0);
-  const [preferentialTicket, setPreferentialTicket] = useState<number[]>([]);
-  const [regularTicket, setRegularTicket] = useState<number[]>([]);
 
 
   return (
     <>
-      <TicketContext.Provider value={{ ticket, setTicket, preferentialTicket, setPreferentialTicket, regularTicket, setRegularTicket }}>
+      <TicketContext.Provider value={{ ticket, setTicket}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<InitialPage />} />

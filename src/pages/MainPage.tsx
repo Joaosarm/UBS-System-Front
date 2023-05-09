@@ -1,18 +1,33 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { TicketContext } from "../context/ticketContext";
-import { useContext } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 
 // TELA DO USUÁRIO
 export default function InitialPage(){
     const navigator = useNavigate();
-    const {preferentialTicket, regularTicket} = useContext(TicketContext);
+    const [preferentialTickets, setPreferentialTickets] = useState<number[]>([]);
+    const [regularTickets, setRegularTickets] = useState<number[]>([]);
 
     //TO DO: CARREGAR SENHAS CADASTRADAS
+    useEffect(() => {
+        (async () => {
+            try {
+                axios.get("http://localhost:4000/preferential-ticket").then(
+                    response => response.data?setPreferentialTickets(response.data):
+                    setPreferentialTickets([]));
+                    axios.get("http://localhost:4000/regular-ticket").then(
+                        response => response.data?setRegularTickets(response.data):
+                        setRegularTickets([]));
+
+            } catch (e) {
+                alert("Erro ao receber dados");
+            }
+        })();
+    }, [])
 
 
-    console.log(preferentialTicket);
 
     function logOut(){
         navigator("/log-in");
@@ -30,7 +45,7 @@ export default function InitialPage(){
             <h4>Preferencial:</h4>
             <Box color = {"#1877F2"}>
                 <div>
-                    {preferentialTicket.length>0?preferentialTicket.map(ticket => <p onClick={() =>register(ticket.toString())}>{ticket}</p>):
+                    {preferentialTickets.length>0?preferentialTickets.map(ticket => <p key={ticket} onClick={() =>register(ticket.toString())}>{ticket}</p>):
                     <p>Nenhuma senha a espera</p>}
                 </div>
             </Box>
@@ -38,7 +53,7 @@ export default function InitialPage(){
             <h4>Regular:</h4>
             <Box color = {"#D6860E"}>
                 <div>
-                    {regularTicket.length>0?regularTicket.map(ticket => <p onClick={() =>register(ticket.toString())}>{ticket}</p>):
+                    {regularTickets.length>0?regularTickets.map(ticket => <p key={ticket} onClick={() =>register(ticket.toString())}>{ticket}</p>):
                     <p>Nenhuma senha a espera</p>}
                 </div>
             </Box>

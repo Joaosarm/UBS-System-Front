@@ -2,15 +2,16 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { TicketContext } from "../context/ticketContext";
+import axios from "axios";
 
 export default function ServiceType(){
-    const {ticket, setTicket, preferentialTicket, setPreferentialTicket, regularTicket, setRegularTicket} = useContext(TicketContext);
+    const {setTicket} = useContext(TicketContext);
     const navigator = useNavigate();
 
     async function addPreferentialTickets(){
         try{
-            setTicket(ticket+1);
-            setPreferentialTicket([...preferentialTicket, ticket+1]);
+            const id = await axios.post("http://localhost:4000/preferential-ticket");
+            setTicket(id.data);
             navigator("/ticket");
         } catch (error){
             console.log(error);
@@ -20,8 +21,8 @@ export default function ServiceType(){
     
     async function addRegularTicket(){
         try{
-            setTicket(ticket+1);
-            setRegularTicket([...regularTicket, ticket+1]);
+            const id = await axios.post("http://localhost:4000/regular-ticket");
+            setTicket(id.data);
             navigator("/ticket");
         } catch (error){
             console.log(error);
