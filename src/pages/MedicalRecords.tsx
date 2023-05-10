@@ -28,8 +28,8 @@ export default function MedicalRecords(){
         navigator("/log-in");
     }
     
-    function newRecord(){
-        navigator("/new-medical-record");
+    function newRecord(pName: string){
+        navigator(`/new-medical-record/?name=${pName}`);
     }
 
     return(
@@ -37,13 +37,12 @@ export default function MedicalRecords(){
             <Header><p>Bem-Vindo, {username}</p> <button onClick={logOut}>Sair</button></Header>
 
             <Pacients>{
-                inAttendance.length>0?inAttendance.map(p => <Box>
-                    <p>{p}</p>
-                    <button onClick={newRecord}> Novo Prontuário</button>
+                inAttendance.length>0?inAttendance.map(pName => <Box>
+                    <p>{pName}</p>
+                    <button onClick={() =>newRecord(pName)}> Novo Prontuário</button>
                     </Box>):
                 <p>Nenhum Paciente encontrado</p>
             }</Pacients>
-
         </Container>
     )
 }
@@ -68,6 +67,7 @@ const Header = styled.header`
     top: 0;
     padding: 0 10px;
     font-size: 23px;
+    Z-index: 1;
 
     P{
         display:flex;
