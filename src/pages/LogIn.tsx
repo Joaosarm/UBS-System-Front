@@ -1,24 +1,29 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import axios from "axios";
+import axios from "axios";
+import { UserContext } from "../context/userContext";
 
 export default function LogIn(){
-    const [username, setUsername] = useState("");
+    const [user, setUser] = useState("");
     const [password, setPassword] = useState("");
+    const {setDepartment, setUsername} = useContext(UserContext);
 
     const navigator = useNavigate();
 
-    function login(){
+    async function login(){
         // ENVIAR REQUISIÇÃO DE USUÁRIO, RETORNANDO NOME E TIPO DE USUÁRIO
         try {
-            // const response = await axios.post("http://localhost:5000/sign-in", {username,password});
-            // setUser(response.data.username);
-            // setDepartment(response.data.department);
-            // - secretaria -> /main-page
-            // - enfermagem -> /medical-records
-            // - medicina -> 
-            navigator("/main-page");
+            const response = await axios.post("http://localhost:4000/log-in", {username: user,password});
+            setUsername(response.data.username);
+            setDepartment(response.data.department);
+            if(response.data.department == 1){
+                navigator("/main-page");
+            } else if(response.data.department == 2||response.data.department == 3){
+                navigator("/medical-records");
+            } else{
+                throw new Error('Unconfigured user!')
+            }
           } catch (error){
             console.log(error);
             alert("Username ou senha errado!");
@@ -29,7 +34,7 @@ export default function LogIn(){
     return(
         <Container>
             <Title>UBS System</Title>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
+            <input type="text" value={user} onChange={(e) => setUser(e.target.value)} placeholder="Username" />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Senha" />
             <button onClick={login}>Entrar</button>
         </Container>

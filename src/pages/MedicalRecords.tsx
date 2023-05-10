@@ -1,29 +1,46 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/userContext";
+import axios from "axios";
 
 
 // TELA DA ENFERMARIA -> PÁGINA COM OS PRONTUÁRIOS DE PACIENTES EM ATENDIMENTO
 export default function MedicalRecords(){
     const navigator = useNavigate();
     const [inAttendance, setInAttendance] = useState<string[]>([]); 
+    const {username, department} = useContext(UserContext);
 
-    //TO DO: CARREGAR PRONTUARIOS DE PACIENTES EM ATENDIMENTO
+    //TO DO: CARREGAR PRONTUARIOS DE PACIENTES EM ATENDIMENTO - department
 
-    useEffect(() =>{
-        setInAttendance([]);
-    })
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axios.get(`http://localhost:4000/patients/waiting/${department-1}`)
+                setInAttendance(response.data)
+            } catch (e) {
+                alert("Erro ao receber dados");
+            }
+        })();
+    }, [])
 
     function logOut(){
         navigator("/log-in");
     }
+    
+    function newRecord(){
+        navigator("/new-medical-record");
+    }
 
     return(
         <Container>
-            <Header><p>Bem-Vindo, Usuário</p> <button onClick={logOut}>Sair</button></Header>
+            <Header><p>Bem-Vindo, {username}</p> <button onClick={logOut}>Sair</button></Header>
 
             <Pacients>{
-                inAttendance.length>0?inAttendance.map(p => p):
+                inAttendance.length>0?inAttendance.map(p => <Box>
+                    <p>{p}</p>
+                    <button onClick={newRecord}> Novo Prontuário</button>
+                    </Box>):
                 <p>Nenhum Paciente encontrado</p>
             }</Pacients>
 
@@ -64,5 +81,32 @@ const Header = styled.header`
 ` 
 
 const Pacients = styled.div`
+    margin: 80px;
+`
 
+const Box = styled.div`
+    padding-bottom: 30px;
+    height: auto;
+    width: 500px;
+    background-color: orange;
+    color: #000000;
+    margin: 15px;
+    font-size: 20px;
+    position: relative;
+    p{
+        height: auto;
+        background-color: rgb(255, 84, 0);
+        text-align: left;
+        padding: 5px 0 5px 15px;
+    }
+    button{
+        position: absolute;
+        font-weight: 700;
+        right: 5px;
+        bottom: 5px;
+        background-color: rgb(70, 160, 6);
+        font-size: 11px;
+        height: auto;
+        width: auto;
+    }
 `

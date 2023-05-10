@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios";
 
 
 // TELA DE BUSCA DE CPF EM USUÁRIOS CADASTRADOS
@@ -10,27 +11,34 @@ export default function InitialPage(){
     const urlParams = new URLSearchParams(queryString);
     const ticket = urlParams.get('ticket');
 
+    const [foundCpf, setFoundCpf] = useState<string>("");
     const [cpf, setCpf] = useState<string>("");
     
     
-    const [registered, setRegistered] = useState<string[]>([]);
+    const [registered, setRegistered] = useState<string>();
     
 
     function logOut(){
         navigator("/log-in");
     }
     
-    function newRegister(ticket: string){
-        navigator(`/register/?ticket=${ticket}`);
+    function newRegister(ticket: string, funcCpf : string){
+        navigator(`/register/?ticket=${ticket}&cpf=${funcCpf}`);
     }
 
     function goBack(){
         navigator("/main-page");
     }
     
-    function SearchCPF(){
-        //TO DO: PROCURAR CADATRO DE CPF - GET
-        setRegistered([])
+    async function SearchCPF(){
+        try{
+            const response =  await axios.get(`http://localhost:4000/patient/${cpf}`);
+            setRegistered(response.data.name)
+            setFoundCpf(response.data.cpf)
+        } catch (error){
+            setRegistered("")
+            console.log(error);
+        }
     }
 
     return(
@@ -43,10 +51,11 @@ export default function InitialPage(){
             <button onClick={SearchCPF}>Realizar Busca</button>
 
             <FoundRegisters>{
-                registered.length>0?registered.map(r => r):
-                <div><p>Nenhum Paciente encontrado</p> <u onClick={() => newRegister(ticket?ticket.toString():"Erro")}>Realizar Cadastro</u></div>
+                registered?<h3 onClick={() => newRegister(ticket?ticket.toString():"Erro", foundCpf)}>{registered}</h3>:
+                <div><p>Nenhum Paciente encontrado</p> <u onClick={() => newRegister(ticket?ticket.toString():"", "")}>Realizar Cadastro</u></div>
             }</FoundRegisters>
 
+            {/* <button onClick={() => newRegister(ticket?ticket.toString():"", "")}>Realizar Novo Cadastro</button> */}
             <button onClick={goBack}>Voltar</button>
             
         </Container>

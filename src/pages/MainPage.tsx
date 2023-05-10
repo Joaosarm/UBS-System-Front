@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { UserContext } from "../context/userContext";
 
 
 // TELA DO USUÁRIO
@@ -9,8 +10,8 @@ export default function InitialPage(){
     const navigator = useNavigate();
     const [preferentialTickets, setPreferentialTickets] = useState<number[]>([]);
     const [regularTickets, setRegularTickets] = useState<number[]>([]);
+    const {username} = useContext(UserContext);
 
-    //TO DO: CARREGAR SENHAS CADASTRADAS
     useEffect(() => {
         (async () => {
             try {
@@ -39,14 +40,14 @@ export default function InitialPage(){
 
     return(
         <Container>
-            <Header><p>Bem-Vindo, Usuário</p> <button onClick={logOut}>Sair</button></Header>
+            <Header><p>Bem-Vindo, {username}</p> <button onClick={logOut}>Sair</button></Header>
             {/* BOTÃO INICIAL PARA COMEÇAR O ATENDIMENTO */}
 
             <h4>Preferencial:</h4>
             <Box color = {"#1877F2"}>
                 <div>
                     {preferentialTickets.length>0?preferentialTickets.map(ticket => <p key={ticket} onClick={() =>register(ticket.toString())}>{ticket}</p>):
-                    <p>Nenhuma senha a espera</p>}
+                    <h4>Nenhuma senha a espera</h4>}
                 </div>
             </Box>
             
@@ -54,7 +55,7 @@ export default function InitialPage(){
             <Box color = {"#D6860E"}>
                 <div>
                     {regularTickets.length>0?regularTickets.map(ticket => <p key={ticket} onClick={() =>register(ticket.toString())}>{ticket}</p>):
-                    <p>Nenhuma senha a espera</p>}
+                    <h4>Nenhuma senha a espera</h4>}
                 </div>
             </Box>
         </Container>
@@ -110,5 +111,11 @@ const Box = styled.div`
         align-items: center;
         justify-content: center;
         flex-direction: column;
+    }
+    h4{
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 `
